@@ -73,7 +73,10 @@ const SessionDiv = styled.div`
         color: #293845;
         margin-bottom: 22px;
     }
-
+    a{
+        text-decoration: none;
+        color: inherit;
+    }
 `
 
 const Footer = styled.div`
@@ -95,7 +98,6 @@ const Footer = styled.div`
     h2{
     font-size: 26px;
     line-height: 30px;
-    text-align: center;
     color: #293845;
     white-space: nowrap;
     width: 100%;

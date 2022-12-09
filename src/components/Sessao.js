@@ -8,7 +8,7 @@ export default function Sessao({sessao}){
         <p>{`${sessao.weekday} - ${sessao.date}`}</p>
         <DivButtons>
             {showtimes.map((horarios) => 
-            <Link key={horarios.id} to={`/assentos/${sessao.id}`}>
+            <Link key={horarios.id} to={`/assentos/${horarios.id}`}>
                 <ButtonTime > {horarios.name}</ButtonTime>
             </Link> )}
         </DivButtons>
@@ -33,7 +33,7 @@ const ButtonTime = styled.button`
     letter-spacing: 0.02em;
     color: #FFFFFF;
     justify-content: center;
-    border: 1px solid #000000;
+    border: 1px solid #E8833A;
 `
 
 const DivButtons = styled.div`
