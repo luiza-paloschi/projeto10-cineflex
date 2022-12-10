@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 export default function Assento(props){
     return (
-        <BotaoAssento onClick={()=> props.reservarAssentos(props.assento)} assento={props.assento} selecionado={props.selecionado}>
+        <BotaoAssento data-test="seat" onClick={()=> props.reservarAssentos(props.assento)} assento={props.assento} selecionado={props.selecionado}>
             {props.assento.name}
         </BotaoAssento>
     )

@@ -3,25 +3,31 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-
-
 export default function MainPage(){
     const [moviesList, setMoviesList] = useState([]);
     
     useEffect(() => {
         const promise = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies");
         promise.then((res)=> setMoviesList(res.data));
-        promise.catch((err) => console.log(err));
+        promise.catch((err) => {
+            console.log(err)
+            alert(
+           `${err.code}
+            ${err.message}  
+            Por favor, recarregue a página`)
+        });
     }, []);
     
+    if(moviesList.length === 0){
 
+    }
 
     return (
     <ScreenContainer>
         <h1>Selecione o filme</h1>
         <ContainerFilmes>
             {moviesList.map(movie => 
-                <DivFilme key={movie.id}>
+                <DivFilme data-test="movie" key={movie.id}>
                     <Link to={`/sessoes/${movie.id}`}>
                      <img src={movie.posterURL} alt={movie.title} />
                    </Link>

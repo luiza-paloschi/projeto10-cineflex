@@ -4,16 +4,16 @@ import { Link } from "react-router-dom";
 export default function Sessao({sessao}){
     const showtimes = sessao.showtimes
     return (
-        <>
+        <div data-test="movie-day">
         <p>{`${sessao.weekday} - ${sessao.date}`}</p>
         <DivButtons>
             {showtimes.map((horarios) => 
             <Link key={horarios.id} to={`/assentos/${horarios.id}`}>
-                <ButtonTime > {horarios.name}</ButtonTime>
+                <ButtonTime data-test="showtime" > {horarios.name}</ButtonTime>
             </Link> )}
         </DivButtons>
         
-        </>
+        </div>
     );
 }
 

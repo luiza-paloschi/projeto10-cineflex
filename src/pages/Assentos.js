@@ -52,7 +52,7 @@ export default function Assentos({ticket, setTicket}){
     }
     function finalizar(event){
         event.preventDefault();
-        if(cpf.length > 11 || cpf.includes(".") || cpf.includes("-")){
+        if(cpf.length > 11 || cpf.includes(".") || cpf.includes("-") || cpf.length <11){
             return alert("O CPF deve conter apenas números, totalizando onze dígitos!")
         }
 
@@ -77,6 +77,10 @@ export default function Assentos({ticket, setTicket}){
         })
         promise.catch((err)=>{
             console.log(err)
+            alert(
+           `${err.code}
+            ${err.message}  
+            Por favor, recarregue a página`)
         })
     }
     return (
@@ -102,15 +106,15 @@ export default function Assentos({ticket, setTicket}){
             <FazerPedido onSubmit={finalizar}>
                 <div>
                     <label htmlFor="nome">Nome do comprador:</label>
-                    <input name ="nome" type="text" value={nome} required onChange={e => setNome(e.target.value)} placeholder="Digite seu nome..." />
+                    <input data-test="client-name" name ="nome" type="text" value={nome} required onChange={e => setNome(e.target.value)} placeholder="Digite seu nome..." />
                 </div>
                 <div>
                     <label htmlFor="cpf" >CPF do comprador:</label>
-                    <input name="cpf"  type="number" value={cpf} onChange={e => setCPF(e.target.value)} placeholder="Digite seu CPF..."/>
+                    <input data-test="client-cpf" name="cpf"  type="number" value={cpf} onChange={e => setCPF(e.target.value)} placeholder="Digite seu CPF..."/>
                 </div>
-                <BotaoSubmit type="submit">Reservar Assento(s)</BotaoSubmit>
+                <BotaoSubmit data-test="book-seat-btn" type="submit">Reservar Assento(s)</BotaoSubmit>
             </FazerPedido>
-            <Footer>
+            <Footer data-test="footer">
                 <DivMovie>
                 <img src={ticket.posterURL} alt={ticket.movie} />
                 </DivMovie>
@@ -276,4 +280,6 @@ const BotaoSubmit = styled.button`
     letter-spacing: 0.04em;
     color: #FFFFFF;
     margin-top: 47px;
+    margin-bottom: 50px;
 `
+export {BotaoSubmit};

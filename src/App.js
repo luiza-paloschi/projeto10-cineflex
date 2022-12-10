@@ -20,7 +20,7 @@ const [ticket, setTicket]=useState({movie: "", posterURL:"", day: "", time:"", w
           <Route path="/" element={<MainPage />}/>
           <Route path="/sessoes/:id" element={<Sessions ticket={ticket} setTicket={setTicket} />} />
           <Route path="/assentos/:idSessao" element={<Assentos ticket={ticket} setTicket={setTicket} />} />
-          <Route path="/sucesso" element={<TelaSucesso ticket={ticket} setTicket={setTicket} />} />
+          <Route path="/sucesso" element={<TelaSucesso ticket={ticket} setTicket={setTicket}/>} />
       </Routes>
     </BrowserRouter>
   );

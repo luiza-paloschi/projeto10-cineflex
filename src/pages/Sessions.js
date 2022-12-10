@@ -26,7 +26,7 @@ export default function Sessions({ticket, setTicket}){
             <SessionDiv>
                 {sessoes.map((sessao) => <Sessao key={sessao.id} sessao ={sessao}/>)}
             </SessionDiv>
-            <Footer>
+            <Footer data-test="footer">
                <div>
                     <img src={ticket.posterURL} alt={ticket.movie} />
                </div>
