@@ -9,15 +9,13 @@ import TelaSucesso from "./pages/TelaSucesso";
 
 function App() {
 
-const [ticket, setTicket]=useState({movie: "", posterURL:"", day: "", time:"", weekday:"", seats:[], nome:"", cpf:""})
-
-
+const [ticket, setTicket]=useState({movie: "", posterURL:"", day: "", time:"", weekday:"", seats:[], nome:"", cpf:""});
   return (
     <BrowserRouter>
       <GlobalStyle/>
       <Header/>
       <Routes>
-          <Route path="/" element={<MainPage />}/>
+          <Route path="/" element={<MainPage ticket={ticket}/>}/>
           <Route path="/sessoes/:id" element={<Sessions ticket={ticket} setTicket={setTicket} />} />
           <Route path="/assentos/:idSessao" element={<Assentos ticket={ticket} setTicket={setTicket} />} />
           <Route path="/sucesso" element={<TelaSucesso ticket={ticket} setTicket={setTicket}/>} />

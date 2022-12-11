@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export default function Sessao({sessao}){
-    const showtimes = sessao.showtimes
+    const showtimes = sessao.showtimes;
     return (
         <div data-test="movie-day">
         <p>{`${sessao.weekday} - ${sessao.date}`}</p>
@@ -12,7 +12,6 @@ export default function Sessao({sessao}){
                 <ButtonTime data-test="showtime" > {horarios.name}</ButtonTime>
             </Link> )}
         </DivButtons>
-        
         </div>
     );
 }

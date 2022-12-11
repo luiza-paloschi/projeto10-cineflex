@@ -3,29 +3,28 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components";
 import Assento from "../components/Assento";
-
+import arrow from "../assets/arrow.png"
 
 export default function Assentos({ticket, setTicket}){
     const {idSessao} = useParams();
     const[assentos, setAssentos] = useState([]);
     const [selecionado, setSelecionado] =useState([]);
-    const [nome, setNome] = useState("")
-    const [cpf, setCPF] = useState("")
+    const [nome, setNome] = useState("");
+    const [cpf, setCPF] = useState("");
     const navigate = useNavigate();
-    console.log(ticket)
+
 
     useEffect(()=>{
-        const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`)
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
         promise.then((res)=> {
-            console.log(res.data)
-            setAssentos(res.data.seats)
-            const novoObj = {...ticket}
-            novoObj.day = res.data.day.date
-            novoObj.weekday = res.data.day.weekday
-            novoObj.time = res.data.name
-            novoObj.movie = res.data.movie.title
-            novoObj.posterURL = res.data.movie.posterURL
-            setTicket(novoObj)
+            setAssentos(res.data.seats);
+            const novoObj = {...ticket};
+            novoObj.day = res.data.day.date;
+            novoObj.weekday = res.data.day.weekday;
+            novoObj.time = res.data.name;
+            novoObj.movie = res.data.movie.title;
+            novoObj.posterURL = res.data.movie.posterURL;
+            setTicket(novoObj);
         })
     }, [])
     
@@ -33,58 +32,61 @@ export default function Assentos({ticket, setTicket}){
         if (assento.isAvailable === false){
             return alert("Esse assento não está disponível");
         }
-        const novoObj = {...ticket}
-        const arrayIds = [...selecionado]
+        const novoObj = {...ticket};
+        const arrayIds = [...selecionado];
         if (arrayIds.includes(assento.id)){
-            const valor = assento.id
-            const numero  = assento.name
-            const arrayFiltrado = arrayIds.filter((item => item !== valor))
-            const arrayTicketFiltrado = novoObj.seats.filter((item => item !== numero))
-            novoObj.seats = arrayTicketFiltrado
+            const valor = assento.id;
+            const numero  = assento.name;
+            const arrayFiltrado = arrayIds.filter((item => item !== valor));
+            const arrayTicketFiltrado = novoObj.seats.filter((item => item !== numero));
+            novoObj.seats = arrayTicketFiltrado;
             setSelecionado(arrayFiltrado);
-            setTicket(novoObj)
+            setTicket(novoObj);
         } else{
             arrayIds.push(assento.id);
             setSelecionado(arrayIds);
             novoObj.seats.push(assento.name)
-            setTicket(novoObj)
+            setTicket(novoObj);
         }
     }
     function finalizar(event){
         event.preventDefault();
         if(cpf.length > 11 || cpf.includes(".") || cpf.includes("-") || cpf.length <11){
-            return alert("O CPF deve conter apenas números, totalizando onze dígitos!")
+            return alert("O CPF deve conter apenas números, totalizando onze dígitos!");
         }
 
         if(selecionado.length === 0){
-            return alert("Selecione pelo menos um assento!")
+            return alert("Selecione pelo menos um assento!");
         }
         const obj = {
                 ids: selecionado,
                 name: nome,
                 cpf: cpf
-            }
-        ticket.nome= nome
+            };
+        ticket.nome= nome;
         const primeiroPonto = cpf.substring(0, 3) + "." + cpf.substring(3, cpf.length);
         const segundoPonto = primeiroPonto.substring(0, 7) + "." + cpf.substring(6, cpf.length);
         const traco = segundoPonto.substring(0, 11) + "-" + cpf.substring(9, cpf.length);
-        ticket.cpf = traco
+        ticket.cpf = traco;
         
-        const promise = axios.post(`https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`, obj)
-        promise.then((res) => {
-            console.log(res)
-            navigate("/sucesso")
-        })
+        const promise = axios.post(`https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`, obj);
+        promise.then(() => {
+            navigate("/sucesso");
+        });
         promise.catch((err)=>{
-            console.log(err)
             alert(
            `${err.code}
             ${err.message}  
-            Por favor, recarregue a página`)
-        })
+            Por favor, recarregue a página`);
+        });
     }
     return (
         <ScreenContainer>
+             <DivArrow>
+                <button data-test="go-home-header-btn" onClick={()=> navigate(-1)}>
+                <img src={arrow} alt="voltar"/>
+                </button>
+            </DivArrow>
             <h1>Selecione o(s) assento(s)</h1>
             <DivAssentos>
                 {assentos.map((assento) => <Assento assento={assento} key={assento.id} reservarAssentos={reservarAssentos} selecionado={selecionado}/>)}
@@ -126,6 +128,20 @@ export default function Assentos({ticket, setTicket}){
         </ScreenContainer>
     )
 }
+
+const DivArrow = styled.div`
+    position: fixed;
+    top: 13px;
+    left: 10px;
+    img{
+        width:40px;
+        height:40px;
+    }
+    button{
+        border:none;
+        background: none;
+    }
+`
 
 const ScreenContainer = styled.div`
     background-color: #FFFFFF;;
@@ -228,7 +244,6 @@ const DivDados = styled.div`
     overflow: hidden;
     }
 `
-
 const FazerPedido = styled.form`
     width:100%;
     display:flex;
@@ -261,9 +276,7 @@ const FazerPedido = styled.form`
             font-size: 18px;
             line-height: 21px;
             color: #AFAFAF;
-
         }
-        
     }
 `
 const BotaoSubmit = styled.button`

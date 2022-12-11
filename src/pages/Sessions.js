@@ -1,27 +1,35 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import arrow from "../assets/arrow.png";
 
 import Sessao from "../components/Sessao";
 
 export default function Sessions({ticket, setTicket}){
     const {id} = useParams();
     const [sessoes, setSessao] = useState([]);
+    const navigate = useNavigate();
    
    useEffect(()=> {
-    const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${id}/showtimes`)
+    const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${id}/showtimes`);
     promise.then((res) => {
-        setSessao(res.data.days)
-        const novoObj = {...ticket}
-        novoObj.movie = res.data.title
-        novoObj.posterURL = res.data.posterURL
-        setTicket(novoObj)
-    })
+        setSessao(res.data.days);
+        const novoObj = {...ticket};
+        novoObj.seats =[];
+        novoObj.movie = res.data.title;
+        novoObj.posterURL = res.data.posterURL;
+        setTicket(novoObj);
+    });
    },[])
     
     return (
         <ScreenContainer>
+            <DivArrow>
+                <button data-test="go-home-header-btn" onClick={()=> navigate(-1)}>
+                <img src={arrow} alt="voltar"/>
+                </button>
+            </DivArrow>
             <h1>Selecione o horário</h1>
             <SessionDiv>
                 {sessoes.map((sessao) => <Sessao key={sessao.id} sessao ={sessao}/>)}
@@ -35,6 +43,20 @@ export default function Sessions({ticket, setTicket}){
         </ScreenContainer>
     )
 }
+
+const DivArrow = styled.div`
+    position: fixed;
+    top: 13px;
+    left: 10px;
+    img{
+        width:40px;
+        height:40px;
+    }
+    button{
+        border:none;
+        background: none;
+    }
+`
 
 const ScreenContainer = styled.div`
     background-color: #FFFFFF;;

@@ -3,14 +3,16 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export default function MainPage(){
+export default function MainPage({ticket}){
     const [moviesList, setMoviesList] = useState([]);
     
     useEffect(() => {
         const promise = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies");
-        promise.then((res)=> setMoviesList(res.data));
+        promise.then((res)=> {
+            ticket.movie = "";
+            ticket.posterURL = "";
+            setMoviesList(res.data)});
         promise.catch((err) => {
-            console.log(err)
             alert(
            `${err.code}
             ${err.message}  
