@@ -16,14 +16,10 @@ export default function MainPage({ticket}){
             alert(
            `${err.code}
             ${err.message}  
-            Por favor, recarregue a página`)
+            Por favor, recarregue a página`);
         });
     }, []);
     
-    if(moviesList.length === 0){
-
-    }
-
     return (
     <ScreenContainer>
         <h1>Selecione o filme</h1>
